@@ -1,0 +1,6 @@
+mutation CreateNewConversation($firstMessage: String!) {
+  startNewConversation(firstMessage: $firstMessage) {
+    id
+    ownerFid
+  }
+}
