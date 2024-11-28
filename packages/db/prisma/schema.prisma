@@ -19,6 +19,7 @@ model TestTable {
 
 model Conversation {
   id String @id @default(uuid())
+  conversation_owner_fid Int 
 
   UserMessages UserMessages[]
   AetherMessages AetherMessages[]

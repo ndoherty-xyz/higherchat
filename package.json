@@ -4,15 +4,24 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "higherchat:dev:apps": "concurrently \"pnpm dev:api\"  \"pnpm dev:indexer\" --names \"api,indexer\" --prefix-colors \"green,red\"",
+    "higherchat:dev:apps:no-indexer": "concurrently \"pnpm dev:api\"  --names \"api\" --prefix-colors \"green\"",
+    "higherchat:up": "pnpm build:packages && concurrently \"pnpm watch:packages\" \"sleep 2 && pnpm higherchat:dev:apps\" --names \"packages,apps\" --prefix-colors \"blue,yellow\"",
+    "higherchat:up:no-indexer": "pnpm build:packages && concurrently \"pnpm watch:packages\" \"sleep 2 && pnpm higherchat:dev:apps:no-indexer\" --names \"packages,apps\" --prefix-colors \"blue,yellow\"",
     "watch:packages": "WATCH=true pnpm --filter \"./packages/**\" --parallel run build",
     "build:packages": "pnpm --filter \"./packages/**\" build",
     "start:indexer": "pnpm --filter @higherchat/indexer start",
-    "build:indexer": "pnpm --filter @higherchat/indexer... build"
+    "dev:indexer": "pnpm --filter @higherchat/indexer dev",
+    "build:indexer": "pnpm --filter @higherchat/indexer... build",
+    "dev:api": "pnpm --filter @higherchat/api dev",
+    "start:api": "pnpm --filter @higherchat/api start",
+    "build:api": "pnpm --filter @higherchat/api... build"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "concurrently": "^9.0.1",
     "@types/node": "^20",
     "tsc-alias": "^1.8.10",
     "tsup": "^8.3.0",

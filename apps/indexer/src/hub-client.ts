@@ -64,12 +64,30 @@ export class HubClient {
     if (message.data.fid !== 862185) return;
 
     // Eventually, we will add a check in here that the aethernet cast is replying to an existing user message
+    const parentHash = message.data.castAddBody.parentCastId?.hash;
+
+    if (!parentHash) {
+      console.log("Aether is talking to themselves!");
+      return; // If not replying to anyone, skip
+    }
+
+    const hexParentHash = `0x${Buffer.from(parentHash).toString("hex")}`;
+    const replyToUserMessage = await prisma.userMessages.findUnique({
+      where: {
+        castHash: hexParentHash,
+      },
+    });
+
+    if (!replyToUserMessage) {
+      console.log("Aether not replying to a user message, dont store.");
+      return; // If not replying to an existing user message, skip
+    }
 
     // Store in database
     await this.prisma.aetherMessages.create({
       data: {
-        conversation_id: "test",
-        castHash: Buffer.from(message.hash).toString("hex"),
+        conversation_id: replyToUserMessage.conversation_id,
+        castHash: `0x${Buffer.from(message.hash).toString("hex")}`,
         message_text: message.data.castAddBody?.text || "",
         timestamp: farcasterTimeToDate(message.data.timestamp),
       },
