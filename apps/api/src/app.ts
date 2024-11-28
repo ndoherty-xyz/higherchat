@@ -34,9 +34,20 @@ const yoga = createYoga({
   graphqlEndpoint: "/api/graphql",
   context: async (ctx) => {
     const authHeader = ctx.request.headers.get("higherchat-auth");
-    console.log(authHeader);
+
+    let user = undefined;
+    if (authHeader) {
+      const [fid, signerUuid] = authHeader.split(":::");
+      if (fid && signerUuid) {
+        user = {
+          fid: Number(fid),
+          signerUuid,
+        };
+      }
+    }
 
     return {
+      user,
       ...ctx,
     };
   },

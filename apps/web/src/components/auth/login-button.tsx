@@ -3,6 +3,9 @@
 import { useAuth } from "@/hooks/useAuth";
 import { useCallback } from "react";
 import { Button } from "../ui/button";
+import { useQuery } from "@apollo/client";
+import { MeDocument } from "@/graphql/_generated_/graphql";
+import { Avatar } from "../users/avatar";
 
 let authWindow: WindowProxy | null;
 const authUrl = new URL("https://app.neynar.com/login");
@@ -10,6 +13,8 @@ const authOrigin = authUrl.origin;
 
 export const LoginButton = () => {
   const auth = useAuth();
+
+  const meQuery = useQuery(MeDocument);
 
   const handleMessage = useCallback(
     (
@@ -58,10 +63,12 @@ export const LoginButton = () => {
     <>
       {auth.state ? (
         <div className="flex flex-row gap-2 items-center">
-          {auth.state ? (
-            <div>
-              logged in! fid: {auth.state.fid} {auth.state.signerUUID}
-            </div>
+          {meQuery.data?.me ? (
+            <Avatar
+              pfpUrl={meQuery.data.me.avatarUrl}
+              size="md"
+              overrideSize={36}
+            />
           ) : null}
           <Button onClick={() => auth.logout()}>Logout</Button>
         </div>

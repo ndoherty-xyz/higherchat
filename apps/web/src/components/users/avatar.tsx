@@ -1,7 +1,8 @@
+import { Maybe } from "@/graphql/_generated_/graphql";
 import Image from "next/image";
 
 export const Avatar = (props: {
-  pfpUrl?: string;
+  pfpUrl?: Maybe<string>;
   size: "sm" | "md" | "lg" | "xl" | "2xl";
   overrideSize?: number;
   noBorder?: boolean;
