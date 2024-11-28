@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  db:
+    container_name: telescope_db
+    image: postgres:16
+    restart: always
+    ports:
+      - ${PG_PORT}:5432
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - data_telescope_db:/var/lib/postgresql/data
+volumes:
+  data_telescope_db:

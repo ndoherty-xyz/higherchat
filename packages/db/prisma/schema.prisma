@@ -1,0 +1,45 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model TestTable {
+  id String @id @default(uuid())
+}
+
+model Conversation {
+  id String @id @default(uuid())
+
+  UserMessages UserMessages[]
+  AetherMessages AetherMessages[]
+}
+
+model UserMessages {
+  id           String @id @default(uuid())
+  castHash     String @unique
+  message_text String
+  timestamp DateTime
+
+  conversation_id String
+  conversation    Conversation @relation(fields: [conversation_id], references: [id])
+}
+
+model AetherMessages {
+  id           String @id @default(uuid())
+  castHash     String @unique
+  message_text String
+  timestamp DateTime
+
+  conversation_id String
+  conversation    Conversation @relation(fields: [conversation_id], references: [id])
+}

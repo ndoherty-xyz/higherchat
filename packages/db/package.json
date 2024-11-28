@@ -1,0 +1,29 @@
+{
+  "name": "@higherchat/db",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "build": "rm -rf dist && pnpm exec prisma generate && tsup",
+    "on:build:success": "echo '@telescope/db package built successfully'"
+  },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
+  },
+  "exports": {
+    ".": {
+      "source": "./src/index.ts",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    },
+    "./package.json": "./package.json"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "prisma": "^5.20.0"
+  },
+  "dependencies": {
+    "@prisma/client": "5.20.0"
+  }
+}

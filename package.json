@@ -1,0 +1,22 @@
+{
+  "name": "higherchat",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "watch:packages": "WATCH=true pnpm --filter \"./packages/**\" --parallel run build",
+    "build:packages": "pnpm --filter \"./packages/**\" build",
+    "start:indexer": "pnpm --filter @higherchat/indexer start",
+    "build:indexer": "pnpm --filter @higherchat/indexer... build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^20",
+    "tsc-alias": "^1.8.10",
+    "tsup": "^8.3.0",
+    "tsx": "^4.19.1",
+    "typescript": "^5.6.2"
+  }
+}
