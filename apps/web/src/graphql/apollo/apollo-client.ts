@@ -13,7 +13,7 @@ import { removeTypenameFromVariables } from "@apollo/client/link/remove-typename
 
 export const authLink = setContext((_, { headers }) => {
   // get the authentication token from local storage if it exists
-  const token = getCookie("telescope-auth");
+  const token = getCookie("higherchat-auth");
   // return the headers to the context so httpLink can read them
   return {
     headers: {
