@@ -1,4 +1,5 @@
 import { Maybe } from "@/graphql/_generated_/graphql";
+import { cn } from "@/lib/utils";
 import Image from "next/image";
 
 export const Avatar = (props: {
@@ -40,7 +41,7 @@ export const Avatar = (props: {
           borderRadius: 999,
           position: "relative",
         }}
-        className={props.className}
+        className={cn(props.className, "flex-shrink-0")}
       >
         <Image
           unoptimized
@@ -64,7 +65,7 @@ export const Avatar = (props: {
   } else {
     return (
       <div
-        className={`bg-gray-500 ${props.className}`}
+        className={`bg-gray-500 ${props.className} flex-shrink-0`}
         style={{
           width: pixelSize,
           height: pixelSize,

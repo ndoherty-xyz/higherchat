@@ -18,7 +18,7 @@ const authLink = setContext((_, { headers }) => {
   return {
     headers: {
       ...headers,
-      'higherchat-auth"': token ? token : "",
+      "higherchat-auth": token ? token : "",
     },
   };
 });

@@ -4,3 +4,17 @@ mutation CreateNewConversation($firstMessage: String!) {
     ownerFid
   }
 }
+
+mutation SendMessage(
+  $conversationId: String!
+  $message: String!
+  $previousMessageHash: String!
+) {
+  sendMessage(
+    conversationId: $conversationId
+    message: $message
+    previousMessageHash: $previousMessageHash
+  ) {
+    ...ConversationWithMessages
+  }
+}

@@ -1,7 +1,11 @@
 query Me {
   me {
-    displayName
-    avatarUrl
-    username
+    ...User
   }
+}
+
+fragment User on NeynarUserType {
+  displayName
+  avatarUrl
+  username
 }

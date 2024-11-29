@@ -3,8 +3,6 @@
 import { useAuth } from "@/hooks/useAuth";
 import { useCallback } from "react";
 import { Button } from "../ui/button";
-import { useQuery } from "@apollo/client";
-import { MeDocument } from "@/graphql/_generated_/graphql";
 import { Avatar } from "../users/avatar";
 
 let authWindow: WindowProxy | null;
@@ -13,8 +11,6 @@ const authOrigin = authUrl.origin;
 
 export const LoginButton = () => {
   const auth = useAuth();
-
-  const meQuery = useQuery(MeDocument);
 
   const handleMessage = useCallback(
     (
@@ -61,15 +57,10 @@ export const LoginButton = () => {
 
   return (
     <>
-      {auth.state ? (
+      {auth.user ? (
         <div className="flex flex-row gap-2 items-center">
-          {meQuery.data?.me ? (
-            <Avatar
-              pfpUrl={meQuery.data.me.avatarUrl}
-              size="md"
-              overrideSize={36}
-            />
-          ) : null}
+          <Avatar pfpUrl={auth.user.avatarUrl} size="md" overrideSize={36} />
+
           <Button onClick={() => auth.logout()}>Logout</Button>
         </div>
       ) : (

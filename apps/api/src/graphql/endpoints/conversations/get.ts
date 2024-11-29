@@ -1,18 +1,23 @@
 import { User } from "@neynar/nodejs-sdk/build/api";
 import { builder, QueryBuilderArg } from "graphql/builder";
 import { getUser, UserType } from "../users/get";
-import { Conversation, prisma } from "@higherchat/db";
+import {
+  AetherMessages,
+  Conversation,
+  prisma,
+  UserMessages,
+} from "@higherchat/db";
 import { requireAuth } from "utils/requireAuth";
 import { AETHER_USER_OBJECT } from "constants/aether";
 
-type ConversationMessage = {
+export type ConversationMessage = {
   user: User;
   messageText: string;
   timestamp: Date;
   castHash: string;
 };
 
-const ConversationMessageType = builder
+export const ConversationMessageType = builder
   .objectRef<ConversationMessage>("ConversationMessageType")
   .implement({
     fields: (t) => ({
@@ -25,11 +30,11 @@ const ConversationMessageType = builder
     }),
   });
 
-type ConversationWithMessages = Conversation & {
+export type ConversationWithMessages = Conversation & {
   messages: ConversationMessage[];
 };
 
-const ConversationWithMessagesType = builder
+export const ConversationWithMessagesType = builder
   .objectRef<ConversationWithMessages>("ConversationWithMessagesType")
   .implement({
     fields: (t) => ({
@@ -37,6 +42,36 @@ const ConversationWithMessagesType = builder
       messages: t.expose("messages", { type: [ConversationMessageType] }),
     }),
   });
+
+export const formatConversationMessages = async (args: {
+  userFid: number;
+  aetherMessages: AetherMessages[];
+  userMessages: UserMessages[];
+}): Promise<ConversationMessage[]> => {
+  const userUserObj = await getUser(args.userFid);
+
+  const userMessages: ConversationMessage[] = args.userMessages.map((msg) => ({
+    messageText: msg.message_text,
+    timestamp: msg.timestamp,
+    castHash: msg.castHash,
+    user: userUserObj,
+  }));
+
+  const aetherMessages: ConversationMessage[] = args.aetherMessages.map(
+    (msg) => ({
+      messageText: msg.message_text,
+      timestamp: msg.timestamp,
+      castHash: msg.castHash,
+      user: AETHER_USER_OBJECT,
+    })
+  );
+
+  const formattedMessages = userMessages
+    .concat(aetherMessages)
+    .sort((a, b) => a.timestamp.getTime() - b.timestamp.getTime());
+
+  return formattedMessages;
+};
 
 export const getConverstationBuilder = (t: QueryBuilderArg) => {
   return t.field({
@@ -53,27 +88,11 @@ export const getConverstationBuilder = (t: QueryBuilderArg) => {
         },
       });
 
-      const userUserObj = await getUser(authUser.fid);
-
-      const userMessages: ConversationMessage[] =
-        conversation?.UserMessages.map((msg) => ({
-          messageText: msg.message_text,
-          timestamp: msg.timestamp,
-          castHash: msg.castHash,
-          user: userUserObj,
-        }));
-
-      const aetherMessages: ConversationMessage[] =
-        conversation?.AetherMessages.map((msg) => ({
-          messageText: msg.message_text,
-          timestamp: msg.timestamp,
-          castHash: msg.castHash,
-          user: AETHER_USER_OBJECT,
-        }));
-
-      const formattedMessages = userMessages
-        .concat(aetherMessages)
-        .sort((a, b) => a.timestamp.getTime() - b.timestamp.getTime());
+      const formattedMessages = await formatConversationMessages({
+        userFid: authUser.fid,
+        aetherMessages: conversation.AetherMessages ?? [],
+        userMessages: conversation.UserMessages ?? [],
+      });
 
       return {
         ...conversation,

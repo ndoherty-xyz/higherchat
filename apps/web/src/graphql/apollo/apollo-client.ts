@@ -126,7 +126,11 @@ function mergeAndSortArrayByField<
   };
 }
 
-export const typePolicies: StrictTypedTypePolicies = {};
+export const typePolicies: StrictTypedTypePolicies = {
+  ConversationMessageType: {
+    keyFields: ["castHash"],
+  },
+};
 
 export const apolloClient = new ApolloClient({
   cache: new InMemoryCache({

@@ -2,7 +2,6 @@
 
 import { NeynarContextProvider, Theme } from "@neynar/react";
 import "@neynar/react/dist/style.css";
-import { AuthProvider } from "@/hooks/useAuth";
 
 // Create a client
 export const Providers = (props: React.PropsWithChildren) => {
@@ -17,7 +16,7 @@ export const Providers = (props: React.PropsWithChildren) => {
         },
       }}
     >
-      <AuthProvider>{props.children}</AuthProvider>
+      {props.children}
     </NeynarContextProvider>
   );
 };
