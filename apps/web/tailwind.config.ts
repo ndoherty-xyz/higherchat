@@ -6,7 +6,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        brand: ["Alegreya", "serif"],
+        brand: ['"Faculty Glyphic"', "sans"],
       },
       colors: {
         background: "hsl(var(--background))",
