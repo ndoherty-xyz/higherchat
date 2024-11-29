@@ -1,0 +1,23 @@
+query ConversationWithMessages($conversationId: String!) {
+  getConversationWithMessages(id: $conversationId) {
+    ...ConversationWithMessages
+  }
+}
+
+fragment ConversationWithMessages on ConversationWithMessagesType {
+  id
+  messages {
+    ...ConversationMessage
+  }
+}
+
+fragment ConversationMessage on ConversationMessageType {
+  castHash
+  messageText
+  timestamp
+  user {
+    avatarUrl
+    displayName
+    username
+  }
+}

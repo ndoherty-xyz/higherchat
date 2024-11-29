@@ -11,18 +11,24 @@ export const UserType = builder.objectRef<User>("NeynarUserType").implement({
   }),
 });
 
+export const getUser = async (fid: number): Promise<User> => {
+  const userRes = await neynarClient.fetchBulkUsers({
+    fids: [fid],
+  });
+  const user = userRes.users[0];
+
+  if (!user) throw new Error("User not found");
+
+  return user;
+};
+
 export const meBuilder = (t: QueryBuilderArg) => {
   return t.field({
     type: UserType,
     resolve: async (_, args, ctx) => {
       const authUser = await requireAuth(ctx);
 
-      const userRes = await neynarClient.fetchBulkUsers({
-        fids: [authUser.fid],
-      });
-      const user = userRes.users[0];
-
-      return user;
+      return await getUser(authUser.fid);
     },
   });
 };

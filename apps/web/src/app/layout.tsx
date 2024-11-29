@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { ApolloWrapper } from "@/graphql/apollo/apollo-wrapper";
 import { Providers } from "@/components/providers";
+import { Navbar } from "@/components/navbar";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -31,7 +32,12 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Providers>
-          <ApolloWrapper>{children}</ApolloWrapper>
+          <ApolloWrapper>
+            <div>
+              <Navbar />
+              {children}
+            </div>
+          </ApolloWrapper>
         </Providers>
       </body>
     </html>
