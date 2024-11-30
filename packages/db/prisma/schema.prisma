@@ -21,6 +21,8 @@ model Conversation {
   id String @id @default(uuid())
   conversation_owner_fid Int 
 
+  created_at DateTime @default(now())
+
   UserMessages UserMessages[]
   AetherMessages AetherMessages[]
 }

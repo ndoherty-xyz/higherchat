@@ -1,0 +1,30 @@
+# Fetching the minified node image on apline linux
+FROM node:alpine
+
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+RUN corepack enable
+
+# Declaring env
+ENV NODE_ENV=production
+
+# Setting up the work directory
+WORKDIR /app
+
+# Copying all the files in our project
+COPY . .
+
+# Installing dependencies
+RUN pnpm install --production=false
+
+# Build API and dependencies
+RUN pnpm build:api
+
+# Set port provided by railway
+ARG PORT
+
+# Expose the port 
+EXPOSE $PORT
+
+# Start api
+CMD ["sh", "-c", "sleep 3 && pnpm db:migrate:deploy && pnpm start:api"]

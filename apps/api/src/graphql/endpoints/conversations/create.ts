@@ -9,12 +9,13 @@ import { requireAuth } from "utils/requireAuth";
 
 // Types
 
-const ConversationType = builder
+export const ConversationType = builder
   .objectRef<Conversation>("ConversationType")
   .implement({
     fields: (t) => ({
       id: t.exposeString("id"),
       ownerFid: t.exposeInt("conversation_owner_fid"),
+      createdAt: t.string({ resolve: (root) => root.created_at.toISOString() }),
     }),
   });
 

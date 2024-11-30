@@ -1,4 +1,8 @@
-export const HigherLogo = (props: { size: number; color: string }) => {
+export const HigherLogo = (props: {
+  size: number;
+  color: string;
+  className?: string;
+}) => {
   const aspectRatio = 0.9390243902;
   const height = props.size;
   const width = props.size * aspectRatio;
@@ -7,6 +11,7 @@ export const HigherLogo = (props: { size: number; color: string }) => {
     <svg
       width={width}
       height={height}
+      className={props.className}
       viewBox="0 0 462 492"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

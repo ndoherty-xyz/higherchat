@@ -9,6 +9,7 @@ import {
 } from "@higherchat/db";
 import { requireAuth } from "utils/requireAuth";
 import { AETHER_USER_OBJECT } from "constants/aether";
+import { ConversationType } from "./create";
 
 export type ConversationMessage = {
   user: User;
@@ -39,6 +40,8 @@ export const ConversationWithMessagesType = builder
   .implement({
     fields: (t) => ({
       id: t.exposeString("id"),
+      ownerFid: t.exposeInt("conversation_owner_fid"),
+      createdAt: t.string({ resolve: (root) => root.created_at.toISOString() }),
       messages: t.expose("messages", { type: [ConversationMessageType] }),
     }),
   });
@@ -98,6 +101,26 @@ export const getConverstationBuilder = (t: QueryBuilderArg) => {
         ...conversation,
         messages: formattedMessages,
       };
+    },
+  });
+};
+
+export const getMyConversationsBuilder = (t: QueryBuilderArg) => {
+  return t.field({
+    type: [ConversationType],
+    args: { limit: t.arg.int() },
+    resolve: async (_, args, ctx) => {
+      const authUser = await requireAuth(ctx);
+
+      const conversations = await prisma.conversation.findMany({
+        where: { conversation_owner_fid: authUser.fid },
+        orderBy: {
+          created_at: "desc",
+        },
+        ...(args.limit ? { take: args.limit } : {}),
+      });
+
+      return conversations;
     },
   });
 };

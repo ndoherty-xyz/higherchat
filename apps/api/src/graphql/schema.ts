@@ -3,13 +3,17 @@ import {
   createNewConversationBuilder,
   sendNewMessageBuilder,
 } from "./endpoints/conversations/create";
-import { getConverstationBuilder } from "./endpoints/conversations/get";
+import {
+  getConverstationBuilder,
+  getMyConversationsBuilder,
+} from "./endpoints/conversations/get";
 import { meBuilder } from "./endpoints/users/get";
 
 builder.queryType({
   fields: (t) => ({
     me: meBuilder(t),
     getConversationWithMessages: getConverstationBuilder(t),
+    myConversations: getMyConversationsBuilder(t),
   }),
 });
 
