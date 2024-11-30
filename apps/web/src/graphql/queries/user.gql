@@ -5,6 +5,7 @@ query Me {
 }
 
 fragment User on NeynarUserType {
+  fid
   displayName
   avatarUrl
   username

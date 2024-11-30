@@ -5,6 +5,7 @@ import { requireAuth } from "utils/requireAuth";
 
 export const UserType = builder.objectRef<User>("NeynarUserType").implement({
   fields: (t) => ({
+    fid: t.exposeInt("fid"),
     username: t.exposeString("username"),
     avatarUrl: t.exposeString("pfp_url", { nullable: true }),
     displayName: t.exposeString("display_name", { nullable: true }),

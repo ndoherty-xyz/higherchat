@@ -27,7 +27,10 @@ export default async function Home({ params }: { params: { id: string } }) {
     notFound();
   }
 
-  if (!conv || conv.data.getConversationWithMessages.ownerFid) {
+  if (
+    !conv ||
+    conv.data.getConversationWithMessages.ownerFid !== me.data.me.fid
+  ) {
     notFound();
   }
 
