@@ -18,7 +18,7 @@ COPY . .
 RUN pnpm install --production=false
 
 # Build API and dependencies
-RUN pnpm build:job-processor
+RUN pnpm build:indexer
 
 # Set port provided by railway
 ARG PORT
@@ -27,4 +27,4 @@ ARG PORT
 EXPOSE $PORT
 
 # Start job processor
-CMD ["sh", "-c", "sleep 3 && pnpm start:job-processor"]
+CMD ["sh", "-c", "sleep 3 && pnpm start:indexer"]

@@ -18,7 +18,10 @@
     "build:web": "pnpm --filter @higherchat/web... build",
     "dev:api": "pnpm --filter @higherchat/api dev",
     "start:api": "pnpm --filter @higherchat/api start",
-    "build:api": "pnpm --filter @higherchat/api... build"
+    "build:api": "pnpm --filter @higherchat/api... build",
+    "db:generate": "cd packages/db && pnpm exec prisma generate",
+    "db:migrate:dev": "cd packages/db && pnpm exec prisma migrate dev",
+    "db:migrate:deploy": "cd packages/db && pnpm exec prisma migrate deploy"
   },
   "keywords": [],
   "author": "",
