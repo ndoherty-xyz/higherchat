@@ -39,8 +39,6 @@ export const StartScreen = () => {
     }
   }, [inputText, router]);
 
-  console.log(user);
-
   if (!user) {
     return (
       <div className="p-[24px] flex flex-row justify-center items-center flex-grow h-screen bg-gradient">

@@ -93,8 +93,6 @@ export const ConversationScreen = (props: { conversationId: string }) => {
     user,
   ]);
 
-  console.log(data?.getConversationWithMessages.messages);
-
   return (
     <div className="flex flex-col items-center p-[16px] sm:p-[24px] pt-[128px] sm:pt-[128px]">
       <div className="fixed top-0 left-0 bottom-0 right-0 bg-gradient -z-10" />
