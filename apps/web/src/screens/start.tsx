@@ -103,7 +103,7 @@ export const StartScreen = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-[8px] no-scrollbar">
               {pastConversations.map((conv) => {
                 return (
-                  <Link href={`/conversation/${conv.id}`}>
+                  <Link key={conv.id} href={`/conversation/${conv.id}`}>
                     <div className="bg-white/80 backdrop-blur-md rounded-lg border border-stone-600/50 text-stone-800 shadow-md flex-grow p-[16px] cursor-pointer hover:bg-white/60 transition-all">
                       {new Date(conv.createdAt).toLocaleDateString("en-US", {
                         day: "2-digit",
