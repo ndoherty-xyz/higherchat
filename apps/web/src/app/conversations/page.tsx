@@ -27,7 +27,7 @@ export default async function Page() {
       </div>
       <div className="flex flex-col max-w-[600px] gap-[16px] flex-grow w-full">
         {conversations.data.myConversations.map((conv) => (
-          <Link href={`/conversation/${conv.id}`}>
+          <Link key={conv.id} href={`/conversation/${conv.id}`}>
             <div className="bg-white/80 backdrop-blur-md rounded-lg border w-full border-stone-600/50 text-stone-800 shadow-md flex-grow p-[16px] cursor-pointer hover:bg-white/60 transition-all">
               {new Date(conv.createdAt).toLocaleDateString("en-US", {
                 day: "2-digit",

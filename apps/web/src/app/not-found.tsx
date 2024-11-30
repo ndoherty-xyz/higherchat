@@ -13,7 +13,7 @@ export default function NotFound() {
             - a bit too literally.
           </span>
           <span className="text-center text-stone-600">
-            Let's guide you back to more tangible realms.
+            Let&apos;s guide you back to more tangible realms.
           </span>
         </div>
         <Link href={"/"}>
